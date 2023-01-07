@@ -1,0 +1,84 @@
+units:
+  center_shift_x: 170
+  center_shift_y: -165
+
+points:
+  zones:
+    matrix:
+      anchor:
+        shift: [center_shift_x, center_shift_y]
+      columns:
+        outer:
+          rows.extra.skip: false
+          key.col_net: c0
+        pinky:
+          rows:
+            extra:
+              skip: false
+          key:
+            stagger: .5cy
+            col_net: c1
+      rows:
+        extra:
+          skip: true
+          row_net: r0
+  key:
+    padding: cy
+
+outlines:
+  _switches:
+    - what: rectangle
+      where: true
+      size: 14
+      bound: false
+  _switches_lips:
+    - what: rectangle
+      where: true
+      size: [15, 14]
+      bound: false
+  _pcb:
+    - what: rectangle
+      adjust:
+        ref: matrix_pinky_extra
+        shift: [-.5cx, -.25cy]
+      size: [50, 50]
+      corner: 5
+  plate:
+    - _pcb
+    - -_switches
+  _plate_with_lips:
+    - _pcb
+    - -_switches_lips
+
+pcbs:
+  my_pcb:
+    outlines:
+      main:
+        outline: _pcb
+    footprints:
+      choc_hotswap:
+        what: choc
+        where: true
+        params:
+            keycaps: true
+            reverse: true
+            hotswap: true
+            from: "{{colrow}}"
+            to: "{{col_net}}"
+      diode:
+        what: diode
+        where: true
+        params:
+          from: "{{colrow}}"
+          to: "{{row_net}}"
+        adjust:
+          shift: [0, -5]
+
+cases:
+  my_plate:
+    - name: board
+      extrude: 1.2
+      shift: [-center_shift_x, -center_shift_y, 0]
+    - name: _plate_main_lips
+      extrude: 1
+      shift: [-center_shift_x, -center_shift_y, 1.2]

@@ -1,0 +1,74 @@
+units:
+  center_shift_x: 170
+  center_shift_y: -165
+
+points:
+  zones:
+    matrix:
+      anchor:                       # this will still be anchor!
+        shift: [ center_shift_x, center_shift_y ]
+      columns:
+        outer:
+          key:
+            col_net: c0
+        pinky:
+          stagger: .5cy             # move this into key
+          key:
+            col_net: c1
+      rows:
+        extra:
+          row_net: r0
+  key:
+    padding: cy
+    footprints:                     # move this into pcbs
+      choc_hotswap:
+        type: choc                  # change to "what: choc"
+        nets:                       # move content to params
+          from: =colrow             # turn this into "{{colrow}}"
+          to: =col_net              # turn this into "{{col_net}}"
+        params:
+          keycaps: true
+          reverse: true
+          hotswap: true
+      diode:
+        type: diode                 # change to "what: diode"
+        params:
+          through_hole: false       # no through_hole option is gone now? :sad_face:
+        nets:                       # move content to params
+          from: =colrow             # turn this into "{{colrow}}"
+          to: =row_net              # turn this into "{{col_net}}"
+        anchor:                     # rename to adjust
+          shift: [ 0, -5 ]
+
+outlines:
+  exports:
+    switches:
+      - type: keys
+        side: left                  # this will be gone, I think replaced with where logic, but split ones didn't need it anyway (at least I didn't)
+        size: 14
+    switches_lips:
+      - type: rectangle
+        size: [ 15, 14 ]
+    board:
+      - type: rectangle
+        anchor:                     # rename this to adjust
+          ref: matrix_pinky_extra
+          shift: [ -.5cx, -.25cy ]
+        size: [ 30, 30 ]
+        corner: 5
+      - -switches
+
+pcbs:                               # see points.key.footprint
+  my_pcb:
+    outlines:
+      main:
+        outline: board
+
+cases:
+  my_plate:
+    - name: board
+      extrude: 1.2
+      shift: [ -center_shift_x, -center_shift_y, 0 ]
+    - name: _plate_main_lips
+      extrude: 1
+      shift: [ -center_shift_x, -center_shift_y, 1.2 ]
