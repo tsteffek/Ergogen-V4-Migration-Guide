@@ -3,10 +3,18 @@
 
 [Ergogen](https://github.com/ergogen/ergogen) is a great tool for building and designing your own keyboard. It recently went from v3 to v4, but sadly the creator didn't find the time to update the docs yet. So here we collect the necessary steps to transform your v3 configuration into a working v4 one!
 
+## TOC
+
+- [Necessary Steps](#necessary-steps)
+- [Example](#example)
+- [Other Examples & Thanks](#other-examples--thanks)
+- [Difference between Splay and Rotate](#difference-between-splay-and-rotate)
+
 ## Necessary Steps
 
 - zones:
-  - nest `stagger`, `rotate` in `key` field
+  - nest `stagger` in `key` field
+  - nest `rotate` in `key` field and rename to `splay` (unless you really want `rotate`, see [Difference between Splay and Rotate](#difference-between-splay-and-rotate) for difference, spoiler: you don't want rotate anymore)
   - move all `footprints` to `pcbs` and add `where: true` to apply them to all points
 - outlines:
   - remove `exports` nesting
@@ -27,7 +35,7 @@ Still to figure out:
 
 Here we have a little example that forms a 2-key board, complete with case and pcb.
 
-If you're looking for something I didn't cover in "Necessary Steps", your best bet will be to check out the other examples at the bottom, this will just be the steps I discovered so far in action.
+If you're looking for something I didn't cover in "Necessary Steps", your best bet will be to check out the other examples in [Other Examples & Thanks](#other-examples--thanks), this will just be the steps I discovered so far in action.
 
 ### Units
 
@@ -251,3 +259,14 @@ Other v4 examples (both with more things than mine here):
 - https://github.com/MrCarney/mrkeyboard/blob/main/mrkeyboard.yaml by `@PedroTheIntern`
 
 They are also what I used to figure out what to do, so kudos to their efforts of scouring through v4 without help!
+
+## Difference between Splay and Rotate
+
+As promised, here's a comparison of the two (courtesy of @Cache):
+
+Here's what the new `rotate` does:
+![Rotate example image, rotates each key](media/rotate_example.png)
+
+...and the same with `splay`:
+
+![Splay example image, rotates the column](media/splay_example.png)
