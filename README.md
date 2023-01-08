@@ -12,10 +12,11 @@
 
 ## Necessary Steps
 
-- zones:
+- points:
   - nest `stagger` in `key` field
   - nest `rotate` in `key` field and rename to `splay` (unless you really want `rotate`, see [Difference between Splay and Rotate](#difference-between-splay-and-rotate) for difference, spoiler: you don't want rotate anymore)
   - move all `footprints` to `pcbs` and add `where: true` to apply them to all points
+  - `row_overrides` has been superseded by `$unset`: `columns.col_x.row_overrides.row_y:` turns into `columns.col_x.rows.row_y: $unset` (a lot of people use `$skip: true` instead of `$unset` which works similarily)
 - outlines:
   - remove `exports` nesting
   - rename `type` to `what`
