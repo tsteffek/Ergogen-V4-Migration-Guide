@@ -1,42 +1,57 @@
 # Ergogen V4 Migration Guide
+
 ## What's this "Ergogen"?
 
-[Ergogen](https://github.com/ergogen/ergogen) is a great tool for building and designing your own keyboard. It recently went from v3 to v4, but sadly the creator didn't find the time to update the docs yet. So here we collect the necessary steps to transform your v3 configuration into a working v4 one!
+[Ergogen](https://github.com/ergogen/ergogen) is a great tool for building and designing your own keyboard. It recently
+went from v3 to v4, but sadly the creator didn't find the time to update the docs yet. So here we collect the necessary
+steps to transform your v3 configuration into a working v4 one!
 
 ## TOC
 
 - [Necessary Steps](#necessary-steps)
 - [Example](#example)
+    - [Units](#units)
+    - [Points](#points)
+    - [Outlines](#outlines)
+    - [PCBs](#pcbs)
+    - [Cases](#cases)
 - [Other Examples & Thanks](#other-examples--thanks)
 - [Difference between Splay and Rotate](#difference-between-splay-and-rotate)
 
 ## Necessary Steps
 
 - points:
-  - nest `stagger` in `key` field
-  - nest `rotate` in `key` field and rename to `splay` (unless you really want `rotate`, see [Difference between Splay and Rotate](#difference-between-splay-and-rotate) for difference, spoiler: you don't want rotate anymore)
-  - move all `footprints` to `pcbs` and add `where: true` to apply them to all points
-  - `row_overrides` has been superseded by `$unset`: `columns.col_x.row_overrides.row_y:` turns into `columns.col_x.rows.row_y: $unset` (a lot of people use `$skip: true` instead of `$unset` which works similarily)
+    - nest `stagger` in `key` field
+    - nest `rotate` in `key` field and rename to `splay` (unless you really want `rotate`,
+      see [Difference between Splay and Rotate](#difference-between-splay-and-rotate) for difference, spoiler: you don't
+      want rotate anymore)
+    - move all `footprints` to `pcbs` and add `where: true` to apply them to all points
+    - `row_overrides` has been superseded by `$unset`: `columns.col_x.row_overrides.row_y:` turns into `columns.col_x.rows.row_y: $unset` (a lot of people use `$skip: true` instead of `$unset` which works similarily)
 - outlines:
-  - remove `exports` nesting
-  - rename `type` to `what`
-  - rename `anchor` to `adjust`
-  - switch `type: keys` to `what: rectangle` and add `where: true`
+    - remove `exports` nesting
+    - rename `type` to `what`
+    - rename `anchor` to `adjust`
+    - switch `type: keys` to `what: rectangle` and add `where: true`
+    - `rectangles` now have their origin centered instead of in the bottom left corner, so for the old behaviour you
+      need to shift them by `[width/2, height/2]`
 - pcbs:
-  - rename `type` to `what`
-  - rename `anchor` to `adjust`
-  - move parameters from `nets` to `params`
-  - change `from: =colrow` (and similar) to `from: "{{colrow}}"`
+    - rename `type` to `what`
+    - rename `anchor` to `adjust`
+    - move parameters from `nets` to `params`
+    - change `from: =colrow` (and similar) to `from: "{{colrow}}"`
 
 Still to figure out:
-- something happened with my rectangles, still investigating
-- everything I didn't need for my own board, if you know anything missing, hit me up/PR/issue/msg me on discord @Anarc :thumbsup:
+
+- everything I didn't need for my own board, if you know anything missing, hit me up/PR/issue/msg me on discord @Anarc :
+  thumbsup:
 
 ## Example
 
 Here we have a little example that forms a 2-key board, complete with case and pcb.
 
-If you're looking for something I didn't cover in "Necessary Steps", your best bet will be to check out the other examples in [Other Examples & Thanks](#other-examples--thanks), this will just be the steps I discovered so far in action.
+If you're looking for something I didn't cover in "Necessary Steps", your best bet will be to check out the other
+examples in [Other Examples & Thanks](#other-examples--thanks), this will just be the steps I discovered so far in
+action.
 
 ### Units
 
@@ -57,7 +72,7 @@ points:
   zones:
     matrix:
       anchor:                       # this will still be anchor!
-        shift: [center_shift_x, center_shift_y]
+        shift: [ center_shift_x, center_shift_y ]
       columns:
         outer:
           key:
@@ -78,9 +93,9 @@ points:
           from: =colrow             # turn this into "{{colrow}}"
           to: =col_net              # turn this into "{{col_net}}"
         params:
-            keycaps: true
-            reverse: true
-            hotswap: true
+          keycaps: true
+          reverse: true
+          hotswap: true
       diode:
         type: diode                 # change to "what: diode"
         params:
@@ -89,7 +104,7 @@ points:
           from: =colrow             # turn this into "{{colrow}}"
           to: =row_net              # turn this into "{{col_net}}"
         anchor:                     # rename to adjust
-          shift: [0, -5]
+          shift: [ 0, -5 ]
 ```
 
 ```yaml
@@ -98,7 +113,7 @@ points:
   zones:
     matrix:
       anchor:
-        shift: [center_shift_x, center_shift_y]
+        shift: [ center_shift_x, center_shift_y ]
       columns:
         outer:
           rows.extra.skip: false
@@ -130,13 +145,13 @@ outlines:
         size: 14
     switches_lips:
       - type: rectangle
-        size: [15, 14]
+        size: [ 15, 14 ]
     board:
       - type: rectangle
         anchor:                     # rename this to adjust
           ref: matrix_pinky_extra
-          shift: [-.5cx, -.25cy]
-        size: [30, 30]
+          shift: [ -.5cx, -.25cy ]
+        size: [ 30, 30 ]
         corner: 5
       - -switches
 ```
@@ -154,14 +169,14 @@ outlines:
   _switches_lips:
     - what: rectangle
       where: true
-      size: [15, 14]
+      size: [ 15, 14 ]
       bound: false
   _pcb:
     - what: rectangle
       adjust:
         ref: matrix_pinky_extra
-        shift: [-.5cx, -.25cy]
-      size: [50, 50]
+        shift: [ -.5cx, -.25cy ]
+      size: [ 50, 50 ]
       corner: 5
   plate:
     - _pcb
@@ -173,33 +188,37 @@ outlines:
 
 ### PCBs
 
-So I didn't want to blow this example up, but obviously you could have footprints in here already, and they would need to same modifications as the ones in `points`. You only need to add `where` if you want to have your footprint per point tho!
+So I didn't want to blow this example up, but obviously you could have footprints in here already, and they would need
+to same modifications as the ones in `points`. You only need to add `where` if you want to have your footprint per point
+tho!
 
 To make the comparison easier, here's also the footprints from earlier again:
 
 ```yaml
 # v3 points.key
-    footprints:                     # move this into pcbs
-      choc_hotswap:
-        type: choc                  # change to "what: choc"
-        nets:                       # move content to params
-          from: =colrow             # turn this into "{{colrow}}"
-          to: =col_net              # turn this into "{{col_net}}"
-        params:
-            keycaps: true
-            reverse: true
-            hotswap: true
-      diode:
-        type: diode                 # change to "what: diode"
-        params:
-          through_hole: false       # no through_hole option is gone now? :sad_face:
-        nets:                       # move content to params
-          from: =colrow             # turn this into "{{colrow}}"
-          to: =row_net              # turn this into "{{col_net}}"
-        anchor:                     # rename to adjust
-          shift: [0, -5]
+footprints:                     # move this into pcbs
+  choc_hotswap:
+    type: choc                  # change to "what: choc"
+    nets:                       # move content to params
+      from: =colrow             # turn this into "{{colrow}}"
+      to: =col_net              # turn this into "{{col_net}}"
+    params:
+      keycaps: true
+      reverse: true
+      hotswap: true
+  diode:
+    type: diode                 # change to "what: diode"
+    params:
+      through_hole: false       # no through_hole option is gone now? :sad_face:
+    nets:                       # move content to params
+      from: =colrow             # turn this into "{{colrow}}"
+      to: =row_net              # turn this into "{{col_net}}"
+    anchor:                     # rename to adjust
+      shift: [ 0, -5 ]
 ```
+
 ...and the actual pcbs field from before:
+
 ```yaml
 # v3
 pcbs:                               # see points.key.footprint
@@ -221,11 +240,11 @@ pcbs:
         what: choc
         where: true
         params:
-            keycaps: true
-            reverse: true
-            hotswap: true
-            from: "{{colrow}}"
-            to: "{{col_net}}"
+          keycaps: true
+          reverse: true
+          hotswap: true
+          from: "{{colrow}}"
+          to: "{{col_net}}"
       diode:
         what: diode
         where: true
@@ -233,7 +252,7 @@ pcbs:
           from: "{{colrow}}"
           to: "{{row_net}}"
         adjust:
-          shift: [0, -5]
+          shift: [ 0, -5 ]
 ```
 
 ### Cases
@@ -246,10 +265,10 @@ cases:
   my_plate:
     - name: board
       extrude: 1.2
-      shift: [-center_shift_x, -center_shift_y, 0]
+      shift: [ -center_shift_x, -center_shift_y, 0 ]
     - name: _plate_main_lips
       extrude: 1
-      shift: [-center_shift_x, -center_shift_y, 1.2]
+      shift: [ -center_shift_x, -center_shift_y, 1.2 ]
 ```
 
 ## Other Examples & Thanks
@@ -265,9 +284,10 @@ They are also what I used to figure out what to do, so kudos to their efforts of
 
 As promised, here's a comparison of the two (courtesy of @Cache):
 
-Here's what the new `rotate` does:
-![Rotate example image, rotates each key](media/rotate_example.png)
+Here's what `rotate` and `splay` do in v4:
 
-...and the same with `splay`:
+|                               rotate                                |                                splay                                |
+|:-------------------------------------------------------------------:|:-------------------------------------------------------------------:|
+| ![Rotate example image, rotates each key](media/rotate_example.png) | ![Splay example image, rotates the column](media/splay_example.png) | 
 
-![Splay example image, rotates the column](media/splay_example.png)
+In conclusion: you'll probably want `splay`, but `rotate` might now be interesting for your curved thumb cluster.
