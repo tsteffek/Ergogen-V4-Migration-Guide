@@ -22,7 +22,8 @@ points:
     padding: cy
     footprints:                     # move this into pcbs
       choc_hotswap:
-        type: choc                  # change to "what: choc"
+        type: choc                  # change to "what: choc", and since there's no anchor, add "where: true" to apply to all points
+        class: S                    # change to "designator: S"
         nets:                       # move content to params
           from: =colrow             # turn this into "{{colrow}}"
           to: =col_net              # turn this into "{{col_net}}"

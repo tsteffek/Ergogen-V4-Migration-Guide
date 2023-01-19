@@ -59,6 +59,7 @@ pcbs:
       choc_hotswap:
         what: choc
         where: true
+        designator: S
         params:
             keycaps: true
             reverse: true

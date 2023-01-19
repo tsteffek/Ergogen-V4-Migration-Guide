@@ -35,6 +35,7 @@ steps to transform your v3 configuration into a working v4 one!
     - `rectangles` now have their origin centered instead of in the bottom left corner, so for the old behaviour you
       need to shift them by `[width/2, height/2]`
 - pcbs:
+    - rename `class` to `designator`
     - rename `type` to `what`
     - rename `anchor` to `adjust`
     - move parameters from `nets` to `params`
@@ -198,7 +199,8 @@ To make the comparison easier, here's also the footprints from earlier again:
 # v3 points.key
 footprints:                     # move this into pcbs
   choc_hotswap:
-    type: choc                  # change to "what: choc"
+    type: choc                  # change to "what: choc", and since there's no anchor, add "where: true" to apply to all points
+    class: S                    # change to "designator: S"
     nets:                       # move content to params
       from: =colrow             # turn this into "{{colrow}}"
       to: =col_net              # turn this into "{{col_net}}"
@@ -239,6 +241,7 @@ pcbs:
       choc_hotswap:
         what: choc
         where: true
+        designator: S
         params:
           keycaps: true
           reverse: true
