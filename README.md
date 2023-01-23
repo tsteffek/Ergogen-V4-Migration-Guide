@@ -2,9 +2,24 @@
 
 ## What's this "Ergogen"?
 
-[Ergogen](https://github.com/ergogen/ergogen) is a great tool for building and designing your own keyboard. It recently
-went from v3 to v4, but sadly the creator didn't find the time to update the docs yet. So here we collect the necessary
-steps to transform your v3 configuration into a working v4 one!
+[Ergogen](https://github.com/ergogen/ergogen) is a great tool for building and designing your own keyboard.
+The best introductory videos to know my knowledge 
+are [this video by Ben Vallack](https://www.youtube.com/watch?v=M_VuXVErD6E)
+and [this talk by the creator himself](https://www.youtube.com/watch?v=5tERUZ_BSPM). 
+
+Sadly, they are for version 3, and that's where this document comes in.
+
+Oh and be sure to check out the [Discord](https://discord.com/invite/nbKcAZB), lots of helpful people there.
+
+## What's this so-called "Guide"?
+
+Ergogen recently went from v3 to v4, but sadly the creator didn't find the time to update the docs yet.
+To ease the transition, I started collecting the necessary steps to transform your v3 configuration into a working v4
+one!
+
+However, this will not tell you about what v4 improved and can do now.
+Sadly I don't have neither the time nor the insight (or the time to gain that insight) about v4 to produce a real guide,
+you will have to wait until the updated docs for that.
 
 ## TOC
 
@@ -26,8 +41,12 @@ steps to transform your v3 configuration into a working v4 one!
       see [Difference between Splay and Rotate](#difference-between-splay-and-rotate) for difference, spoiler: you don't
       want rotate anymore)
     - move all `footprints` to `pcbs` and add `where: true` to apply them to all points
-    - `row_overrides` has been superseded by `$unset`: `columns.col_x.row_overrides.row_y:` turns into `columns.col_x.rows.row_y: $unset` (a lot of people use `$skip: true` instead of `$unset` which works similarily)
+    - `row_overrides` has been superseded by `$unset`: `columns.col_x.row_overrides.row_y:` turns
+      into `columns.col_x.rows.row_y: $unset` (a lot of people use `$skip: true` instead of `$unset` which works
+      similarily)
 - outlines:
+    - `glue` has been removed! I never worked with glue, so I'm not the best to tell you how to replace it, my guess
+      would be to use a polygon. If you find a good and reliable solution, you know where to find me
     - remove `exports` nesting
     - rename `type` to `what`
     - rename `anchor` to `adjust`
@@ -43,15 +62,15 @@ steps to transform your v3 configuration into a working v4 one!
 
 Still to figure out:
 
-- everything I didn't need for my own board, if you know anything missing, hit me up/PR/issue/msg me on discord @Anarc :
-  thumbsup:
+- everything I didn't need for my own board, if you know anything missing, hit me up/PR/issue/msg me on discord @Anarc 
+  :thumbsup:
 
 ## Example
 
 Here we have a little example that forms a 2-key board, complete with case and pcb.
 
 If you're looking for something I didn't cover in "Necessary Steps", your best bet will be to check out the other
-examples in [Other Examples & Thanks](#other-examples--thanks), this will just be the steps I discovered so far in
+examples in [Other Examples & Thanks](#other-examples--thanks), this will just be most of the steps I discovered so far in
 action.
 
 ### Units
@@ -72,7 +91,7 @@ units:
 points:
   zones:
     matrix:
-      anchor:                       # this will still be anchor!
+      anchor: # this will still be anchor!
         shift: [ center_shift_x, center_shift_y ]
       columns:
         outer:
