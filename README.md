@@ -36,14 +36,15 @@ you will have to wait until the updated docs for that.
 ## Necessary Steps
 
 - points:
-    - nest `stagger` in `key` field
+    - nest `stagger` and `origin` in `key` field
     - nest `rotate` in `key` field and rename to `splay` (unless you really want `rotate`,
       see [Difference between Splay and Rotate](#difference-between-splay-and-rotate) for difference, spoiler: you don't
       want rotate anymore)
-    - move all `footprints` to `pcbs` and add `where: true` to apply them to all points
+    - `footprints` need to be moved to `pcbs`. Also add `where: true` to apply them to all points
     - `row_overrides` has been superseded by `$unset`: `columns.col_x.row_overrides.row_y:` turns
       into `columns.col_x.rows.row_y: $unset` (a lot of people use `$skip: true` instead of `$unset` which works
       similarily)
+    - `anchor`s with multiple refs, e.g. `anchor: [ref1, ref2]` need to be transformed into `anchor.aggregate.parts: [ref1, ref2]`. In the future, the aggregation method can be modified using `anchor.aggregate.method`, but default and old (and only) behavior is `average`
 - outlines:
     - `glue` has been removed! I never worked with glue, so I'm not the best to tell you how to replace it, my guess
       would be to use a polygon. If you find a good and reliable solution, you know where to find me
