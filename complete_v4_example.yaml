@@ -18,6 +18,8 @@ points:
           key:
             stagger: .5cy
             col_net: c1
+            height: 1.5u
+            tags: key1_5u
       rows:
         extra:
           skip: true
@@ -30,12 +32,16 @@ outlines:
     - what: rectangle
       where: true
       size: 14
-      bound: false
+    - what: rectangle
+      where: key1_5u
+      size: [14, 14 * 1.5]
   _switches_lips:
     - what: rectangle
       where: true
       size: [15, 14]
-      bound: false
+    - what: rectangle
+      where: key1_5u
+      size: [15, 14 * 1.5]
   _pcb:
     - what: rectangle
       adjust:
