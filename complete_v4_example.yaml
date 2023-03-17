@@ -1,4 +1,4 @@
-units:
+units:  # shift the PCB into the (approximate) middle of KiCads workspace
   center_shift_x: 170
   center_shift_y: -165
 
@@ -59,8 +59,8 @@ pcbs:
       choc_hotswap:
         what: choc
         where: true
-        designator: S
         params:
+            designator: S
             keycaps: true
             reverse: true
             hotswap: true
@@ -77,9 +77,9 @@ pcbs:
 
 cases:
   my_plate:
-    - name: board
+    - name: plate
       extrude: 1.2
-      shift: [-center_shift_x, -center_shift_y, 0]
-    - name: _plate_main_lips
+      shift: [-center_shift_x, -center_shift_y, 0]  # revert the KiCad shift, so it looks good in the STL previewer
+    - name: _plate_with_lips
       extrude: 1
       shift: [-center_shift_x, -center_shift_y, 1.2]
